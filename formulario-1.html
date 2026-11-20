@@ -56,6 +56,7 @@
     <button type="submit">Gerar texto de resposta</button>
   </form>
   <section id="saida">
+    <p id="status" class="nota"></p>
     <p class="nota">Copie o texto abaixo (Ctrl+A e Ctrl+C) e envie para a UP Co.</p>
     <textarea id="texto" readonly></textarea>
   </section>
@@ -116,7 +117,17 @@ function respostaDe(q, form){
   return marcados.join(", ");
 }
 
-document.getElementById("form").addEventListener("submit", e => {
+const ENDPOINT = "https://briefings-upco.estudojw.workers.dev/enviar";
+const FORMULARIO = "floricultura";
+
+function enviarRespostas(form){
+  const respostas = PERGUNTAS.map(q => ({pergunta: q.p, resposta: respostaDe(q, form) || "(sem resposta)"}));
+  return fetch(ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({formulario: FORMULARIO, respostas})})
+    .then(r => r.ok)
+    .catch(() => false);
+}
+
+document.getElementById("form").addEventListener("submit", async e => {
   e.preventDefault();
   const form = e.target;
   const linhas = ["BRIEFING — FLORICULTURA", ""];
@@ -128,6 +139,10 @@ document.getElementById("form").addEventListener("submit", e => {
   document.getElementById("texto").value = linhas.join("\n");
   const saida = document.getElementById("saida");
   saida.style.display = "block";
+  const ok = await enviarRespostas(form);
+  document.getElementById("status").textContent = ok
+    ? "Respostas enviadas. Obrigado!"
+    : "Não foi possível enviar agora. Copie o texto abaixo e envie para a UP Co.";
   saida.scrollIntoView({behavior:"smooth"});
 });
 
