@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Briefing da Floricultura</title>
+<title>Briefing de redesign da Floricultura</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap">
 <style>
   :root{--bg:#0F0F0F;--bg2:#1A1A1A;--fg:#F2F2F2;--fg2:#9A9A9A;--acento:#57999B;--linha:#2E2E2E;color-scheme:dark}
@@ -35,8 +35,8 @@
 <body>
 <main>
   <header class="marca" aria-label="UP Co."><span class="up">UP</span><span class="trav">—</span><span class="co">Co.</span></header>
-  <h1>Briefing da Floricultura</h1>
-  <p class="intro">Responda com calma. Não existe resposta errada. Ao final, copie o texto gerado e envie para a UP Co.</p>
+  <h1>Briefing de redesign da Floricultura</h1>
+  <p class="intro">Este briefing é para o redesign da marca atual da floricultura. Responda com calma. Não existe resposta errada. Ao final, copie o texto gerado e envie para a UP Co.</p>
   <form id="form" novalidate>
     <h2>1. Negócio e público</h2>
     <div id="bloco-1"></div>
@@ -59,7 +59,9 @@ const PERGUNTAS = [
   {b:1, id:"q4", t:"multi", p:"Quais diferenciais são reais?", o:["Flor fresca","Entrega no mesmo dia","Montagem personalizada","Preço acessível","Outro"]},
   {b:2, id:"q5", t:"scale", p:"Que sensação a marca deve passar?", a:"Sofisticada", z:"Acolhedora"},
   {b:2, id:"q6", t:"one", p:"Direção visual", o:["Noite botânica","Ateliê claro e artesanal","Minimalismo de luxo","Não sei"]},
-  {b:2, id:"q7", t:"one", p:"A marca já tem logo, cores ou fonte?", o:["Sim, envio o arquivo","Tenho só cores","Não tenho nada"]},
+  {b:2, id:"q7", t:"one", p:"Qual é o formato do logo atual?", o:["Tenho o arquivo editável (SVG, AI ou PDF)","Tenho só imagem (PNG ou JPG)","Não sei onde está"]},
+  {b:2, id:"q7a", t:"text", p:"O que manter do logo atual? (cores, flor, letra, símbolo)"},
+  {b:2, id:"q7b", t:"text", p:"O que mudar no logo atual, e por quê?"},
   {b:2, id:"q8", t:"one", p:"Tipografia", o:["Serifa elegante","Sans moderna","Não sei"]},
   {b:2, id:"q9", t:"text", p:"Flores de assinatura: quais 3 a loja mais vende ou quer destacar?"},
   {b:3, id:"q10", t:"one", p:"Onde o pedido fecha?", o:["WhatsApp","Site","Os dois"]},
