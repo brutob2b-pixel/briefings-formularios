@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Briefing das Carteiras de Couro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap">
+<style>
+  :root{--bg:#0F0F0F;--bg2:#1A1A1A;--fg:#F2F2F2;--fg2:#9A9A9A;--acento:#57999B;--linha:#2E2E2E;color-scheme:dark}
+  body{margin:0;background:var(--bg);color:var(--fg);font:300 17px/1.6 "DM Sans",system-ui,sans-serif;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+  main{max-width:680px;margin:0 auto;padding-block:40px 64px}
+  .marca{font-family:Syne,system-ui,sans-serif;font-size:22px;letter-spacing:-.03em;display:flex;align-items:baseline;gap:.25em;margin-bottom:40px}
+  .marca .up{font-weight:800;color:var(--fg)}
+  .marca .trav{color:var(--acento);font-weight:400}
+  .marca .co{font-weight:400;color:var(--fg2)}
+  h1{font-family:Syne,system-ui,sans-serif;font-weight:800;font-size:clamp(32px,6vw,44px);letter-spacing:-.03em;line-height:1.05;margin:0 0 12px;text-wrap:balance}
+  h2{font-family:Syne,system-ui,sans-serif;font-weight:600;font-size:22px;letter-spacing:-.01em;margin:44px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--linha)}
+  .intro{color:var(--fg2);margin:0 0 8px}
+  .q{margin:22px 0}
+  .lbl{display:block;font-weight:500;font-size:15px;margin-bottom:8px}
+  textarea,.outro{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--linha);border-radius:4px;font:inherit;background:var(--bg2);color:var(--fg)}
+  textarea{min-height:84px;resize:vertical}
+  .outro{margin-top:8px}
+  .opts label{display:block;margin:6px 0;cursor:pointer}
+  input[type=radio],input[type=checkbox]{accent-color:var(--acento)}
+  .scale{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--fg2)}
+  .scale select{padding:8px 10px;border-radius:4px;border:1px solid var(--linha);background:var(--bg2);color:var(--fg);font:inherit}
+  button{margin-top:32px;padding:14px 22px;border:0;border-radius:4px;background:var(--acento);color:var(--bg);font:500 15px "DM Sans",system-ui,sans-serif;letter-spacing:.02em;cursor:pointer}
+  button:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--acento);outline-offset:2px}
+  #saida{display:none;margin-top:28px}
+  #saida textarea{min-height:320px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+  .nota{color:var(--fg2);font-size:14px;margin:0 0 8px}
+</style>
+</head>
+<body>
+<main>
+  <header class="marca" aria-label="UP Co."><span class="up">UP</span><span class="trav">—</span><span class="co">Co.</span></header>
+  <h1>Briefing das Carteiras de Couro</h1>
+  <p class="intro">Responda com calma. Não existe resposta errada. Ao final, copie o texto gerado e envie para a UP Co.</p>
+  <form id="form" novalidate>
+    <h2>1. Negócio e público</h2>
+    <div id="bloco-1"></div>
+    <h2>2. Marca e visual</h2>
+    <div id="bloco-2"></div>
+    <button type="submit">Gerar texto de resposta</button>
+  </form>
+  <section id="saida">
+    <p class="nota">Copie o texto abaixo (Ctrl+A e Ctrl+C) e envie para a UP Co.</p>
+    <textarea id="texto" readonly></textarea>
+  </section>
+</main>
+<script>
+const PERGUNTAS = [
+  {b:1, id:"q1", t:"one", p:"A marca é independente, sem ligação oficial com nenhuma organização?", o:["Sim, é independente","Ainda não sei"]},
+  {b:1, id:"q2", t:"multi", p:"Quem usa o produto?", o:["Publicador ativo","Família","Quem compra de presente","Outro"]},
+  {b:1, id:"q3", t:"one", p:"Uso principal", o:["Levar publicações à Pregação","Organizar a apresentação","Presentear"]},
+  {b:1, id:"q4", t:"text", p:"Por que comprar esta carteira e não outra?"},
+  {b:1, id:"q5", t:"multi", p:"Onde vai vender?", o:["Site","WhatsApp","Eventos","Congregação"]},
+  {b:2, id:"q6", t:"scale", p:"Que sensação a marca deve passar?", a:"Discreta", z:"Marcante"},
+  {b:2, id:"q7", t:"one", p:"Direção visual", o:["Clássica e sóbria","Contemporânea e sóbria","Utilitária e limpa"]},
+  {b:2, id:"q8", t:"one", p:"Paleta", o:["Couro natural","Preto","Marrom profundo","Neutros com um detalhe"]},
+  {b:2, id:"q9", t:"one", p:"Acabamento do couro", o:["Liso","Pebble","Costura aparente"]},
+  {b:2, id:"q10", t:"one", p:"Tipografia", o:["Serifa com ar de livro","Sans limpa"]},
+  {b:2, id:"q11", t:"one", p:"Marca no produto", o:["Gravação a quente","Metal","Etiqueta"]},
+  {b:2, id:"q12", t:"one", p:"Aceita personalização, como nome gravado?", o:["Sim","Não"]},
+  {b:2, id:"q13", t:"text", p:"O que a marca não pode parecer? (ex.: oficial, infantil, genérica; dourado em excesso, símbolos religiosos, fotos de pessoas)"}
+];
+
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(){
+  PERGUNTAS.forEach(q => {
+    const div = document.createElement("div");
+    div.className = "q";
+    let corpo = "";
+    if(q.t === "text") corpo = `<textarea name="${q.id}"></textarea>`;
+    if(q.t === "one" || q.t === "multi"){
+      const tipo = q.t === "one" ? "radio" : "checkbox";
+      corpo = `<div class="opts">` + q.o.map(op =>
+        `<label><input type="${tipo}" name="${q.id}" value="${esc(op)}"> ${esc(op)}</label>`).join("") + (q.t === "multi" ? `<input type="text" name="${q.id}_outro" class="outro" placeholder="Outra(s), se quiser escrever">` : "") + `</div>`;
+    }
+    if(q.t === "scale"){
+      corpo = `<div class="scale"><span>${q.a}</span><select name="${q.id}"><option value="">-</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span>${q.z}</span></div>`;
+    }
+    div.innerHTML = `<div class="lbl">${esc(q.p)}</div>` + corpo;
+    document.getElementById("bloco-" + q.b).appendChild(div);
+  });
+}
+
+function respostaDe(q, form){
+  if(q.t === "text") return form.elements[q.id].value.trim();
+  if(q.t === "scale") return form.elements[q.id].value;
+  const marcados = [...form.querySelectorAll(`input[name="${q.id}"]:checked`)].map(i => i.value);
+  const outro = form.elements[q.id + "_outro"]?.value.trim();
+  if(outro) marcados.push(outro);
+  return marcados.join(", ");
+}
+
+document.getElementById("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const form = e.target;
+  const linhas = ["BRIEFING — CARTEIRAS DE COURO", ""];
+  PERGUNTAS.forEach((q, i) => {
+    linhas.push(`${i + 1}. ${q.p}`);
+    linhas.push(`   ${respostaDe(q, form) || "(sem resposta)"}`);
+    linhas.push("");
+  });
+  document.getElementById("texto").value = linhas.join("\n");
+  const saida = document.getElementById("saida");
+  saida.style.display = "block";
+  saida.scrollIntoView({behavior:"smooth"});
+});
+
+render();
+</script>
+</body>
+</html>
