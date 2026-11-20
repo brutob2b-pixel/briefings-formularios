@@ -42,6 +42,8 @@
     <div id="bloco-1"></div>
     <h2>2. Marca e visual</h2>
     <div id="bloco-2"></div>
+    <h2>3. Site</h2>
+    <div id="bloco-3"></div>
     <button type="submit">Gerar texto de resposta</button>
   </form>
   <section id="saida">
@@ -63,7 +65,14 @@ const PERGUNTAS = [
   {b:2, id:"q10", t:"one", p:"Tipografia", o:["Serifa com ar de livro","Sans limpa"]},
   {b:2, id:"q11", t:"one", p:"Marca no produto", o:["Gravação a quente","Metal","Etiqueta"]},
   {b:2, id:"q12", t:"one", p:"Aceita personalização, como nome gravado?", o:["Sim","Não"]},
-  {b:2, id:"q13", t:"text", p:"O que a marca não pode parecer? (ex.: oficial, infantil, genérica; dourado em excesso, símbolos religiosos, fotos de pessoas)"}
+  {b:2, id:"q13", t:"text", p:"O que a marca não pode parecer? (ex.: oficial, infantil, genérica; dourado em excesso, símbolos religiosos, fotos de pessoas)"},
+  {b:3, id:"q14", t:"multi", p:"Quais páginas o site precisa ter?", o:["Início","Produtos","Personalização","Sobre a marca","Contato ou WhatsApp"]},
+  {b:3, id:"q15", t:"one", p:"Como o cliente compra?", o:["Site com pagamento online","Pedido pelo WhatsApp","Os dois"]},
+  {b:3, id:"q16", t:"text", p:"Quantos produtos e modelos terá no lançamento? (ex.: 3 carteiras e 2 pastas)"},
+  {b:3, id:"q17", t:"one", p:"Fotos dos produtos", o:["Já tenho fotos","Tenho algumas","Preciso que sejam feitas"]},
+  {b:3, id:"q18", t:"one", p:"Já tem domínio (endereço do site)?", o:["Sim, já tenho","Não, preciso criar"]},
+  {b:3, id:"q19", t:"text", p:"Sites de referência que você gosta, e o que gosta em cada um"},
+  {b:3, id:"q20", t:"one", p:"Prazo desejado para o site no ar", o:["Até 30 dias","De 30 a 60 dias","Sem pressa"]}
 ];
 
 const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));

@@ -51,6 +51,8 @@
     <div id="bloco-2"></div>
     <h2>3. Produto e canal</h2>
     <div id="bloco-3"></div>
+    <h2>4. Site</h2>
+    <div id="bloco-4"></div>
     <button type="submit">Gerar texto de resposta</button>
   </form>
   <section id="saida">
@@ -74,7 +76,14 @@ const PERGUNTAS = [
   {b:3, id:"q10", t:"one", p:"Onde o pedido fecha?", o:["WhatsApp","Site","Os dois"]},
   {b:3, id:"q11", t:"scale", p:"Quanto o cliente pode personalizar o buquê?", a:"Pouco", z:"Muito"},
   {b:3, id:"q12", t:"multi", p:"Onde a marca aparece?", o:["Cartão","Sacola","Etiqueta","Site","Redes sociais"]},
-  {b:3, id:"q13", t:"text", p:"O que não pode aparecer de jeito nenhum? (ex.: rosa vermelha clichê, neon, dourado em excesso)"}
+  {b:3, id:"q13", t:"text", p:"O que não pode aparecer de jeito nenhum? (ex.: rosa vermelha clichê, neon, dourado em excesso)"},
+  {b:4, id:"q14", t:"multi", p:"Quais páginas o site precisa ter?", o:["Início","Monte seu buquê","Catálogo de flores","Sobre a loja","Contato"]},
+  {b:4, id:"q15", t:"text", p:"Lista de produtos e preços: cole aqui ou diga quem vai enviar"},
+  {b:4, id:"q16", t:"one", p:"Fotos dos produtos", o:["Já tenho fotos","Tenho algumas","Preciso que sejam feitas"]},
+  {b:4, id:"q17", t:"one", p:"Como o cliente paga?", o:["Pix","Cartão","Pix e cartão","Ainda não sei"]},
+  {b:4, id:"q18", t:"one", p:"Já tem domínio (endereço do site)?", o:["Sim, já tenho","Não, preciso criar"]},
+  {b:4, id:"q19", t:"text", p:"Sites de referência que você gosta, e o que gosta em cada um"},
+  {b:4, id:"q20", t:"one", p:"Prazo desejado para o site no ar", o:["Até 30 dias","De 30 a 60 dias","Sem pressa"]}
 ];
 
 const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
