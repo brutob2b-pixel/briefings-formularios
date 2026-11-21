@@ -30,6 +30,8 @@
   #saida{display:none;margin-top:28px}
   #saida textarea{min-height:320px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
   .nota{color:var(--fg2);font-size:14px;margin:0 0 8px}
+  #enviar:disabled{opacity:.75;cursor:default}
+  #enviar.ok{background:#2E8B57;color:#FFFFFF}
   .topo{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));width:52px;height:52px;margin:0;padding:0;border-radius:50%;display:grid;place-items:center;background:var(--acento);color:var(--bg);box-shadow:0 6px 18px rgba(0,0,0,.4);animation:pulso 2s ease-out infinite;z-index:20}
   .topo[hidden]{display:none}
   .topo svg{width:22px;height:22px}
@@ -49,7 +51,7 @@
     <div id="bloco-2"></div>
     <h2>3. Site</h2>
     <div id="bloco-3"></div>
-    <button type="submit">Gerar texto de resposta</button>
+    <button type="submit" id="enviar">Enviar resposta</button>
   </form>
   <section id="saida">
     <p id="status" class="nota"></p>
@@ -124,6 +126,19 @@ function enviarRespostas(form){
 document.getElementById("form").addEventListener("submit", async e => {
   e.preventDefault();
   const form = e.target;
+  const botao = document.getElementById("enviar");
+  const saida = document.getElementById("saida");
+  botao.disabled = true;
+  botao.textContent = "Enviando…";
+  const ok = await enviarRespostas(form);
+  if(ok){
+    botao.classList.add("ok");
+    botao.textContent = "Resposta enviada";
+    saida.style.display = "none";
+    return;
+  }
+  botao.disabled = false;
+  botao.textContent = "Enviar resposta";
   const linhas = ["BRIEFING — CARTEIRAS DE COURO", ""];
   PERGUNTAS.forEach((q, i) => {
     linhas.push(`${i + 1}. ${q.p}`);
@@ -131,12 +146,8 @@ document.getElementById("form").addEventListener("submit", async e => {
     linhas.push("");
   });
   document.getElementById("texto").value = linhas.join("\n");
-  const saida = document.getElementById("saida");
   saida.style.display = "block";
-  const ok = await enviarRespostas(form);
-  document.getElementById("status").textContent = ok
-    ? "Respostas enviadas. Obrigado!"
-    : "Não foi possível enviar agora. Copie o texto abaixo e envie para a UP Co.";
+  document.getElementById("status").textContent = "Não foi possível enviar agora. Copie o texto abaixo e envie para a UP Co.";
   saida.scrollIntoView({behavior:"smooth"});
 });
 
