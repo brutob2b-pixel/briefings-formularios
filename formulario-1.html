@@ -60,6 +60,7 @@
     <div id="bloco-3"></div>
     <h2>4. Site</h2>
     <div id="bloco-4"></div>
+    <p class="nota">Suas respostas ficam salvas neste navegador. Pode sair e voltar depois para terminar.</p>
     <button type="submit" id="enviar">Enviar resposta</button>
   </form>
   <section id="saida">
@@ -145,6 +146,7 @@ document.getElementById("form").addEventListener("submit", async e => {
   if(ok){
     botao.classList.add("ok");
     botao.textContent = "Resposta enviada";
+    try{ localStorage.removeItem(CHAVE_RASCUNHO); }catch(e){}
     saida.style.display = "none";
     return;
   }
@@ -162,7 +164,33 @@ document.getElementById("form").addEventListener("submit", async e => {
   saida.scrollIntoView({behavior:"smooth"});
 });
 
+const CHAVE_RASCUNHO = "rascunho-briefing-" + FORMULARIO;
+const CAMPOS = "#form input, #form textarea, #form select";
+
+function salvarRascunho(){
+  const dados = {};
+  document.querySelectorAll(CAMPOS).forEach(el => {
+    if(el.type === "radio" || el.type === "checkbox") dados[el.name + "|" + el.value] = el.checked;
+    else if(el.name) dados[el.name] = el.value;
+  });
+  try{ localStorage.setItem(CHAVE_RASCUNHO, JSON.stringify(dados)); }catch(e){}
+}
+
+function restaurarRascunho(){
+  let dados = null;
+  try{ dados = JSON.parse(localStorage.getItem(CHAVE_RASCUNHO)); }catch(e){}
+  if(!dados) return;
+  document.querySelectorAll(CAMPOS).forEach(el => {
+    if(el.type === "radio" || el.type === "checkbox") el.checked = !!dados[el.name + "|" + el.value];
+    else if(el.name && dados[el.name] !== undefined) el.value = dados[el.name];
+  });
+}
+
 render();
+restaurarRascunho();
+const formulario = document.getElementById("form");
+formulario.addEventListener("input", salvarRascunho);
+formulario.addEventListener("change", salvarRascunho);
 </script>
 <button type="button" class="topo" id="topo" hidden aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <script>
