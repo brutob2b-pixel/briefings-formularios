@@ -30,6 +30,11 @@
   #saida{display:none;margin-top:28px}
   #saida textarea{min-height:320px;font-family:ui-monospace,Consolas,monospace;font-size:13px}
   .nota{color:var(--fg2);font-size:14px;margin:0 0 8px}
+  .topo{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));width:52px;height:52px;margin:0;padding:0;border-radius:50%;display:grid;place-items:center;background:var(--acento);color:var(--bg);box-shadow:0 6px 18px rgba(0,0,0,.4);animation:pulso 2s ease-out infinite;z-index:20}
+  .topo[hidden]{display:none}
+  .topo svg{width:22px;height:22px}
+  @keyframes pulso{0%{box-shadow:0 0 0 0 rgba(87,153,155,.55),0 6px 18px rgba(0,0,0,.4)}70%{box-shadow:0 0 0 16px rgba(87,153,155,0),0 6px 18px rgba(0,0,0,.4)}100%{box-shadow:0 0 0 0 rgba(87,153,155,0),0 6px 18px rgba(0,0,0,.4)}}
+  @media (prefers-reduced-motion: reduce){.topo{animation:none}}
 </style>
 </head>
 <body>
@@ -136,6 +141,12 @@ document.getElementById("form").addEventListener("submit", async e => {
 });
 
 render();
+</script>
+<button type="button" class="topo" id="topo" hidden aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>
+const botaoTopo = document.getElementById("topo");
+window.addEventListener("scroll", () => { botaoTopo.hidden = window.scrollY < 400; }, {passive: true});
+botaoTopo.addEventListener("click", () => window.scrollTo({top: 0, behavior: "smooth"}));
 </script>
 </body>
 </html>
